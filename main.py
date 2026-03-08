@@ -13,7 +13,7 @@ from PyQt6.QtGui import QIcon, QFont, QColor, QPainter, QPen, QAction, QFontData
 FONT_PATH = "DSEG7Classic-Bold.ttf"
 FONT_NAME = "DSEG7 Classic"
 if not os.path.exists(FONT_PATH):
-    print("Downloading 7-segment font for Jarvis theme...")
+    print("Downloading 7-segment font for Cyber theme...")
     try:
         url = "https://raw.githubusercontent.com/keshikan/DSEG/master/fonts/DSEG7-Classic/DSEG7Classic-Bold.ttf"
         urllib.request.urlretrieve(url, FONT_PATH)
@@ -394,7 +394,7 @@ class HealthGuardianDashboard(QMainWindow):
         
         close_btn = QPushButton("X", central_widget)
         close_btn.setObjectName("closeBtn")
-        close_btn.setGeometry(850, 20, 30, 30)
+        close_btn.setGeometry(840, 30, 35, 35)
         close_btn.setCursor(Qt.CursorShape.PointingHandCursor)
         close_btn.clicked.connect(self.close)
         

@@ -1,4 +1,4 @@
-# 🛡️ Health Guardian (Iron Man Edition)
+# 🛡️ Health Guardian
 
 > "A market-ready, native Windows desktop application meticulously engineered to protect human health and mitigate ocular fatigue during extended PC sessions."
 
@@ -10,7 +10,7 @@ Health Guardian utilizes true 7-segment digital fonts, aggressive neon styling, 
 By color-coding primary objectives—Ocular Rest (Cyan), Hydration (Blue), and Physical Movement (Magenta)—the dashboard provides clear, glanceable cognitive mapping for your health requirements.
 
 ### ✨ Key Features
-* **True Digital Aesthetics**: Automatically securely installs the `DSEG-7_Classic` digital font for the Iron Man/Jarvis HUD aesthetic.
+* **True Digital Aesthetics**: Automatically securely installs the `DSEG-7_Classic` digital font for the Cyber HUD aesthetic.
 * **Strict Operating System Overlays**: Takes total control of the display layer (`Qt.WindowStaysOnTopHint`), actively bypassing easily ignored standard Windows Toast Notifications or "Do Not Disturb" focus modes.
 * **Independent Background Architecture**: Timers decouple from the UI constraints and operate mathematically in the background, never losing a second of time even when notifications are paused on-screen.
 * **Localized Async Audio Alerts**: High-frequency recurring audio alerts utilizing asynchronous `winsound` native thread purging.
@@ -77,7 +77,7 @@ Contributions are what make the open-source community such an amazing place to l
 4. **Push to the Branch** (`git push origin feature/AmazingFeature`)
 5. **Open a Pull Request**
 
-Please ensure that any new UI additions adhere closely to the established "Cyber/Jarvis" aesthetic blueprint. 
+Please ensure that any new UI additions adhere closely to the established "Cyber" aesthetic blueprint.  
 
 ## 📄 License
 Distributed under the MIT License. Use it to protect your health globally.
