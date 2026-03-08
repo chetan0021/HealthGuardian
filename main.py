@@ -15,7 +15,7 @@ FONT_NAME = "DSEG7 Classic"
 if not os.path.exists(FONT_PATH):
     print("Downloading 7-segment font for Cyber theme...")
     try:
-        url = "https://raw.githubusercontent.com/keshikan/DSEG/master/fonts/DSEG7-Classic/DSEG7Classic-Bold.ttf"
+        url = "https://github.com/keshikan/DSEG/raw/refs/heads/master/fonts/DSEG7-Classic/DSEG7Classic-Bold.ttf"
         urllib.request.urlretrieve(url, FONT_PATH)
     except Exception as e:
         print(f"Failed to download font: {e}")
@@ -145,7 +145,7 @@ class CircularProgress(QWidget):
         painter.drawText(rect, Qt.AlignmentFlag.AlignCenter, time_str)
         
         # Status Text placed distinctly below the circle
-        painter.setFont(QFont("Consolas", 11, QFont.Weight.Bold))
+        painter.setFont(QFont("Consolas", 13, QFont.Weight.Bold))
         status_rect = QRectF(0, 185, 180, 25)
         painter.drawText(status_rect, Qt.AlignmentFlag.AlignCenter, "ACTIVE" if self.is_running else "PAUSED")
         
@@ -166,6 +166,7 @@ class AlertOverlay(QWidget):
             Qt.WindowType.WindowStaysOnTopHint
         )
         self.setAttribute(Qt.WidgetAttribute.WA_TranslucentBackground)
+        self.setAttribute(Qt.WidgetAttribute.WA_NoSystemBackground)
         
         screen = QApplication.primaryScreen().geometry()
         self.setGeometry(screen)
@@ -367,23 +368,26 @@ class HealthGuardianDashboard(QMainWindow):
         
         self.setWindowFlags(Qt.WindowType.FramelessWindowHint)
         self.setAttribute(Qt.WidgetAttribute.WA_TranslucentBackground)
+        self.setAttribute(Qt.WidgetAttribute.WA_NoSystemBackground)
         self._drag_pos = None
         
         self.setStyleSheet("""
-            QLabel { color: #00f2fe; font-family: 'Consolas'; }
+            QLabel { color: #00f2fe; font-family: 'Consolas'; font-size: 14px; font-weight: bold; }
             QPushButton {
                 background-color: transparent;
                 color: #00f2fe;
                 border: 1px solid #00f2fe;
                 border-radius: 5px;
-                padding: 8px 16px;
+                padding: 10px 16px;
+                font-size: 14px;
                 font-weight: bold;
                 font-family: 'Consolas';
+                letter-spacing: 1px;
             }
             QPushButton:hover { background-color: rgba(0, 242, 254, 0.2); }
             QPushButton#testBtn { background-color: rgba(0, 242, 254, 0.1); border: 2px solid #00f2fe; font-size: 16px; }
             QPushButton#testBtn:hover { background-color: rgba(0, 242, 254, 0.3); }
-            QPushButton#closeBtn { background-color: transparent; border: none; font-size: 20px; color: #a0a5b8; }
+            QPushButton#closeBtn { background-color: transparent; border: none; font-size: 24px; color: #a0a5b8; }
             QPushButton#closeBtn:hover { color: #f5576c; }
         """)
 
@@ -399,10 +403,10 @@ class HealthGuardianDashboard(QMainWindow):
         close_btn.clicked.connect(self.close)
         
         header = QLabel("HEALTH GUARDIAN")
-        header.setStyleSheet("font-size: 30px; font-weight: bold; letter-spacing: 2px;")
+        header.setStyleSheet("font-size: 38px; font-weight: bold; letter-spacing: 4px; color: #ffffff;")
         header.setAlignment(Qt.AlignmentFlag.AlignCenter)
         sub = QLabel("HUMAN HEALTH PROTECTION // ALWAYS ACTIVE")
-        sub.setStyleSheet("font-size: 14px; color: #a0a5b8;")
+        sub.setStyleSheet("font-size: 14px; color: #a0a5b8; letter-spacing: 2px; font-weight: normal;")
         sub.setAlignment(Qt.AlignmentFlag.AlignCenter)
         
         main_layout.addWidget(header)
@@ -417,7 +421,7 @@ class HealthGuardianDashboard(QMainWindow):
             card_layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
             
             t_lbl = QLabel(f"[{TIMERS_CONF[timer_id]['title'].upper()}]")
-            t_lbl.setStyleSheet(f"font-size: 16px; font-weight: bold; color: {TIMERS_CONF[timer_id]['color']};")
+            t_lbl.setStyleSheet(f"font-size: 16px; font-weight: bold; letter-spacing: 1px; color: {TIMERS_CONF[timer_id]['color']};")
             t_lbl.setAlignment(Qt.AlignmentFlag.AlignCenter)
             
             circle = CircularProgress(timer_id, card)
