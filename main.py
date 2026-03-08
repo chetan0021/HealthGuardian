@@ -28,9 +28,9 @@ APP_SETTINGS = {
 
 # Configuration Data
 TIMERS_CONF = {
-    '20': {'duration': 20 * 60, 'break_duration': 20, 'title': '20-20-20 Rule', 'message': 'LOOK 20 FEET AWAY', 'color': '#00f2fe'},
-    '60': {'duration': 60 * 60, 'break_duration': 60, 'title': 'Hydration Time', 'message': 'DRINK WATER', 'color': '#0078FF'},
-    '120': {'duration': 120 * 60, 'break_duration': 15 * 60, 'title': 'Long Break', 'message': 'STEP AWAY FROM PC', 'color': '#f093fb'}
+    '20': {'duration': 20 * 60, 'break_duration': 20, 'title': '👀 20-20-20 Rule', 'message': 'LOOK 20 FEET AWAY', 'color': '#00f2fe'},
+    '60': {'duration': 60 * 60, 'break_duration': 60, 'title': '💧 Hydration Time', 'message': 'DRINK WATER', 'color': '#0078FF'},
+    '120': {'duration': 120 * 60, 'break_duration': 15 * 60, 'title': '🚶‍♂️ Long Break', 'message': 'STEP AWAY FROM PC', 'color': '#f093fb'}
 }
 
 class CyberPanel(QWidget):
@@ -402,10 +402,10 @@ class HealthGuardianDashboard(QMainWindow):
         close_btn.setCursor(Qt.CursorShape.PointingHandCursor)
         close_btn.clicked.connect(self.close)
         
-        header = QLabel("HEALTH GUARDIAN")
+        header = QLabel("🛡️ HEALTH GUARDIAN")
         header.setStyleSheet("font-size: 38px; font-weight: bold; letter-spacing: 4px; color: #ffffff;")
         header.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        sub = QLabel("HUMAN HEALTH PROTECTION // ALWAYS ACTIVE")
+        sub = QLabel("⚡ HUMAN HEALTH PROTECTION // ALWAYS ACTIVE ⚡")
         sub.setStyleSheet("font-size: 14px; color: #a0a5b8; letter-spacing: 2px; font-weight: normal;")
         sub.setAlignment(Qt.AlignmentFlag.AlignCenter)
         
