@@ -440,16 +440,21 @@ class HealthGuardianDashboard(QMainWindow):
         ctrl_layout = QHBoxLayout()
         ctrl_layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
         
-        test_btn = QPushButton("TEST OVERLAY FORCE POPUP")
+        ctrl_layout.setSpacing(20)
+        
+        test_btn = QPushButton("TEST OVERLAY")
         test_btn.setObjectName("testBtn")
+        test_btn.setFixedSize(220, 45)
         test_btn.setCursor(Qt.CursorShape.PointingHandCursor)
         test_btn.clicked.connect(self.test_popup)
         
         reset_btn = QPushButton("RESET TIMERS")
+        reset_btn.setFixedSize(220, 45)
         reset_btn.setCursor(Qt.CursorShape.PointingHandCursor)
         reset_btn.clicked.connect(self.reset_all)
         
         settings_btn = QPushButton("⚙ SYSTEM SETTINGS")
+        settings_btn.setFixedSize(220, 45)
         settings_btn.setCursor(Qt.CursorShape.PointingHandCursor)
         settings_btn.clicked.connect(self.open_settings)
         
