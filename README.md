@@ -1,16 +1,28 @@
-# 🛡️ Health Guardian
+<div align="center">
+  <h1>🛡️ Health Guardian</h1>
+  
+  <p><b>A market-ready, native Windows desktop application meticulously engineered to protect human health and mitigate ocular fatigue during extended PC sessions.</b></p>
 
-> "A market-ready, native Windows desktop application meticulously engineered to protect human health and mitigate ocular fatigue during extended PC sessions."
+  <img src="screenshot.png" alt="Health Guardian Dashboard" width="800">
 
-![Health Guardian Dashboard](screenshot.png)
+  <br><br>
+
+  <!-- Tech Stack Badges -->
+  <a href="https://www.python.org/"><img src="https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white" alt="Python"></a>
+  <a href="https://riverbankcomputing.com/software/pyqt/intro"><img src="https://img.shields.io/badge/PyQt6-41CD52?style=for-the-badge&logo=qt&logoColor=white" alt="PyQt6"></a>
+  <a href="https://microsoft.com/windows"><img src="https://img.shields.io/badge/Windows-0078D6?style=for-the-badge&logo=windows&logoColor=white" alt="Windows Native"></a>
+  <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge" alt="License: MIT"></a>
+
+</div>
+
+<hr>
 
 ## 🌟 Overview
-Health Guardian utilizes true 7-segment digital fonts, aggressive neon styling, zero-dependency background architectures, and highly strict overlay notifications to ensure critical health protocols are strictly enforced.
+Health Guardian utilizes a mathematically drawn Cyber aesthetic, deep autonomous background architectures, and highly strict overlay notifications to ensure critical health protocols are strictly enforced.
 
 By color-coding primary objectives—Ocular Rest (Cyan), Hydration (Blue), and Physical Movement (Magenta)—the dashboard provides clear, glanceable cognitive mapping for your health requirements.
 
 ### ✨ Key Features
-* **True Digital Aesthetics**: Automatically securely installs the `DSEG-7_Classic` digital font for the Cyber HUD aesthetic.
 * **Strict Operating System Overlays**: Takes total control of the display layer (`Qt.WindowStaysOnTopHint`), actively bypassing easily ignored standard Windows Toast Notifications or "Do Not Disturb" focus modes.
 * **Localized Async Audio Alerts**: High-frequency recurring audio alerts utilizing asynchronous `winsound` native thread purging.
 
