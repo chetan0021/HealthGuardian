@@ -6,8 +6,8 @@ from PyQt6.QtWidgets import (QApplication, QMainWindow, QWidget, QVBoxLayout,
                              QHBoxLayout, QLabel, QPushButton, QSystemTrayIcon,
                              QMenu, QStyle, QGraphicsDropShadowEffect, QDialog, QCheckBox, 
                              QGraphicsOpacityEffect)
-from PyQt6.QtCore import Qt, QTimer, QPropertyAnimation, QEasingCurve, QRectF, pyqtSignal
-from PyQt6.QtGui import QIcon, QFont, QColor, QPainter, QPen, QAction, QFontDatabase
+from PyQt6.QtCore import Qt, QTimer, QPropertyAnimation, QEasingCurve, QRectF, pyqtSignal, QPointF, QPoint
+from PyQt6.QtGui import QIcon, QFont, QColor, QPainter, QPen, QAction, QFontDatabase, QPolygonF
 
 # Download the Digital-7 font if it doesn't exist
 FONT_PATH = "DSEG7Classic-Bold.ttf"
@@ -32,6 +32,37 @@ TIMERS_CONF = {
     '60': {'duration': 60 * 60, 'break_duration': 60, 'title': 'Hydration Time', 'message': 'DRINK WATER', 'color': '#0078FF'},
     '120': {'duration': 120 * 60, 'break_duration': 15 * 60, 'title': 'Long Break', 'message': 'STEP AWAY FROM PC', 'color': '#f093fb'}
 }
+
+class CyberPanel(QWidget):
+    def __init__(self, color_str, bg_alpha=240, border_width=2, parent=None):
+        super().__init__(parent)
+        self.color = QColor(color_str)
+        self.bg_alpha = bg_alpha
+        self.border_width = border_width
+        self.setAttribute(Qt.WidgetAttribute.WA_TranslucentBackground)
+        
+    def paintEvent(self, event):
+        painter = QPainter(self)
+        painter.setRenderHint(QPainter.RenderHint.Antialiasing)
+        
+        corner = 30.0
+        w = float(self.width())
+        h = float(self.height())
+        poly = QPolygonF([
+            QPointF(corner, 1),
+            QPointF(w - corner, 1),
+            QPointF(w - 1, corner),
+            QPointF(w - 1, h - corner),
+            QPointF(w - corner, h - 1),
+            QPointF(corner, h - 1),
+            QPointF(1, h - corner),
+            QPointF(1, corner)
+        ])
+        
+        painter.setBrush(QColor(5, 5, 10, self.bg_alpha))
+        pen = QPen(self.color, self.border_width)
+        painter.setPen(pen)
+        painter.drawPolygon(poly)
 
 class CircularProgress(QWidget):
     timer_finished = pyqtSignal(str)
@@ -150,14 +181,9 @@ class AlertOverlay(QWidget):
         layout = QVBoxLayout(self)
         layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
         
-        self.panel = QWidget(self)
+        self.panel = CyberPanel(self.color, 240, 2, self)
         self.panel.setFixedSize(700, 450)
         self.panel.setStyleSheet(f"""
-            QWidget {{
-                background-color: rgba(5, 5, 10, 0.95);
-                border-radius: 15px;
-                border: 2px solid {self.color};
-            }}
             QLabel#title {{
                 color: {self.color};
                 font-family: 'Consolas';
@@ -288,8 +314,14 @@ class SettingsDialog(QDialog):
         super().__init__(parent)
         self.setWindowTitle("Settings")
         self.setFixedSize(380, 220)
+        
+        self.setWindowFlags(Qt.WindowType.FramelessWindowHint | Qt.WindowType.Dialog)
+        self.setAttribute(Qt.WidgetAttribute.WA_TranslucentBackground)
+        
+        self.bg = CyberPanel("#00f2fe", 255, 2, self)
+        self.bg.setGeometry(0, 0, 380, 220)
+        
         self.setStyleSheet("""
-            QDialog { background-color: #05050A; color: #00f2fe; border: 2px solid #00f2fe; }
             QCheckBox { color: #00f2fe; font-family: 'Consolas'; font-size: 14px; margin: 10px; font-weight: bold; }
             QCheckBox::indicator { width: 20px; height: 20px; border: 1px solid #00f2fe; background: transparent; }
             QCheckBox::indicator:checked { background: #00f2fe; }
@@ -333,8 +365,11 @@ class HealthGuardianDashboard(QMainWindow):
         self.setWindowTitle("Health Guardian - System UI")
         self.setFixedSize(900, 600)
         
+        self.setWindowFlags(Qt.WindowType.FramelessWindowHint)
+        self.setAttribute(Qt.WidgetAttribute.WA_TranslucentBackground)
+        self._drag_pos = None
+        
         self.setStyleSheet("""
-            QMainWindow { background-color: #05050A; }
             QLabel { color: #00f2fe; font-family: 'Consolas'; }
             QPushButton {
                 background-color: transparent;
@@ -348,12 +383,20 @@ class HealthGuardianDashboard(QMainWindow):
             QPushButton:hover { background-color: rgba(0, 242, 254, 0.2); }
             QPushButton#testBtn { background-color: rgba(0, 242, 254, 0.1); border: 2px solid #00f2fe; font-size: 16px; }
             QPushButton#testBtn:hover { background-color: rgba(0, 242, 254, 0.3); }
+            QPushButton#closeBtn { background-color: transparent; border: none; font-size: 20px; color: #a0a5b8; }
+            QPushButton#closeBtn:hover { color: #f5576c; }
         """)
 
-        central_widget = QWidget()
+        central_widget = CyberPanel("#00f2fe", 255, 2)
         self.setCentralWidget(central_widget)
         main_layout = QVBoxLayout(central_widget)
         main_layout.setContentsMargins(30, 30, 30, 30)
+        
+        close_btn = QPushButton("X", central_widget)
+        close_btn.setObjectName("closeBtn")
+        close_btn.setGeometry(850, 20, 30, 30)
+        close_btn.setCursor(Qt.CursorShape.PointingHandCursor)
+        close_btn.clicked.connect(self.close)
         
         header = QLabel("SYSTEM UI: HEALTH GUARDIAN")
         header.setStyleSheet("font-size: 30px; font-weight: bold; letter-spacing: 2px;")
@@ -422,6 +465,17 @@ class HealthGuardianDashboard(QMainWindow):
         self.master_timer.start(1000)
         
         self.active_overlays = []
+
+    def mousePressEvent(self, event):
+        if event.button() == Qt.MouseButton.LeftButton:
+            self._drag_pos = event.globalPosition().toPoint() - self.frameGeometry().topLeft()
+
+    def mouseMoveEvent(self, event):
+        if self._drag_pos is not None:
+            self.move(event.globalPosition().toPoint() - self._drag_pos)
+
+    def mouseReleaseEvent(self, event):
+        self._drag_pos = None
 
     def toggle_timer(self, circle, btn):
         circle.play_pause()
