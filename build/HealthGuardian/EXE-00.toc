@@ -67,7 +67,7 @@
  [],
  False,
  False,
- 1772976428,
+ 1772978499,
  [('runw.exe',
    'C:\\Users\\Chetan\\Documents\\Strainreducer\\.venv\\Lib\\site-packages\\PyInstaller\\bootloader\\Windows-64bit-intel\\runw.exe',
    'EXECUTABLE')],
