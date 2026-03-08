@@ -402,7 +402,7 @@ class HealthGuardianDashboard(QMainWindow):
         close_btn.setCursor(Qt.CursorShape.PointingHandCursor)
         close_btn.clicked.connect(self.close)
         
-        header = QLabel("🛡️ HEALTH GUARDIAN")
+        header = QLabel("HEALTH GUARDIAN")
         header.setStyleSheet("font-size: 38px; font-weight: bold; letter-spacing: 4px; color: #ffffff;")
         header.setAlignment(Qt.AlignmentFlag.AlignCenter)
         sub = QLabel("⚡ HUMAN HEALTH PROTECTION // ALWAYS ACTIVE ⚡")
