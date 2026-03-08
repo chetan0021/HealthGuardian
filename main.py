@@ -29,8 +29,8 @@ APP_SETTINGS = {
 # Configuration Data
 TIMERS_CONF = {
     '20': {'duration': 20 * 60, 'break_duration': 20, 'title': '20-20-20 Rule', 'message': 'LOOK 20 FEET AWAY', 'color': '#00f2fe'},
-    '60': {'duration': 60 * 60, 'break_duration': 60, 'title': 'Hydration Time', 'message': 'DRINK WATER', 'color': '#00f2fe'},
-    '120': {'duration': 120 * 60, 'break_duration': 15 * 60, 'title': 'Long Break', 'message': 'STEP AWAY FROM PC', 'color': '#00f2fe'}
+    '60': {'duration': 60 * 60, 'break_duration': 60, 'title': 'Hydration Time', 'message': 'DRINK WATER', 'color': '#0078FF'},
+    '120': {'duration': 120 * 60, 'break_duration': 15 * 60, 'title': 'Long Break', 'message': 'STEP AWAY FROM PC', 'color': '#f093fb'}
 }
 
 class CircularProgress(QWidget):
@@ -43,7 +43,7 @@ class CircularProgress(QWidget):
         self.max_time = self.conf['duration']
         self.time_left = self.max_time
         
-        self.setFixedSize(180, 180)
+        self.setFixedSize(180, 210)
         self.color = QColor(self.conf['color'])
         
         # Internal Timer
@@ -73,25 +73,29 @@ class CircularProgress(QWidget):
         painter = QPainter(self)
         painter.setRenderHint(QPainter.RenderHint.Antialiasing)
         
-        rect = QRectF(15, 15, self.width()-30, self.height()-30)
+        rect = QRectF(15, 15, self.width()-30, self.width()-30)
         
         fraction = self.time_left / self.max_time
         span_angle = int(-fraction * 360 * 16)
         
         # Draw Glow (Thicker, semi-transparent arc beneath)
-        pen_glow = QPen(QColor(0, 242, 254, 80))
+        c_glow = QColor(self.color)
+        c_glow.setAlpha(80)
+        pen_glow = QPen(c_glow)
         pen_glow.setWidth(20)
         pen_glow.setCapStyle(Qt.PenCapStyle.RoundCap)
         painter.setPen(pen_glow)
         painter.drawArc(rect, 90 * 16, span_angle)
         
         # Background Circle
-        pen_bg = QPen(QColor(0, 242, 254, 20))
+        c_bg = QColor(self.color)
+        c_bg.setAlpha(20)
+        pen_bg = QPen(c_bg)
         pen_bg.setWidth(6)
         painter.setPen(pen_bg)
         painter.drawEllipse(rect)
         
-        # Foreground Arc (Neon Cyan)
+        # Foreground Arc (Neon)
         pen_fg = QPen(self.color)
         pen_fg.setWidth(8)
         pen_fg.setCapStyle(Qt.PenCapStyle.RoundCap)
@@ -109,9 +113,9 @@ class CircularProgress(QWidget):
         painter.setFont(font)
         painter.drawText(rect, Qt.AlignmentFlag.AlignCenter, time_str)
         
-        # Status Text
-        painter.setFont(QFont("Consolas", 10, QFont.Weight.Bold))
-        status_rect = QRectF(15, self.height() - 40, self.width()-30, 30)
+        # Status Text placed distinctly below the circle
+        painter.setFont(QFont("Consolas", 11, QFont.Weight.Bold))
+        status_rect = QRectF(0, self.width()-5, self.width(), 30)
         painter.drawText(status_rect, Qt.AlignmentFlag.AlignCenter, "ACTIVE" if self.is_running else "PAUSED")
         
         painter.end()
@@ -121,6 +125,7 @@ class AlertOverlay(QWidget):
     def __init__(self, conf):
         super().__init__()
         self.conf = conf
+        self.color = conf['color']
         self.break_duration = conf['break_duration']
         self.time_left = self.break_duration
         
@@ -147,47 +152,48 @@ class AlertOverlay(QWidget):
         
         self.panel = QWidget(self)
         self.panel.setFixedSize(700, 450)
-        self.panel.setStyleSheet("""
-            QWidget {
+        self.panel.setStyleSheet(f"""
+            QWidget {{
                 background-color: rgba(5, 5, 10, 0.95);
                 border-radius: 15px;
-                border: 2px solid #00f2fe;
-            }
-            QLabel#title {
-                color: #00f2fe;
+                border: 2px solid {self.color};
+            }}
+            QLabel#title {{
+                color: {self.color};
                 font-family: 'Consolas';
                 font-size: 32px;
                 font-weight: bold;
                 border: none;
                 background: transparent;
-            }
-            QLabel#timer {
-                color: #00f2fe;
+            }}
+            QLabel#timer {{
+                color: {self.color};
                 font-size: 80px;
                 border: none;
                 background: transparent;
-            }
-            QLabel#msg {
+            }}
+            QLabel#msg {{
                 color: #ffffff;
                 font-family: 'Consolas';
                 font-size: 20px;
                 border: none;
                 background: transparent;
-                margin-top: -10px;
-            }
-            QPushButton {
+                margin-top: 10px;
+            }}
+            QPushButton {{
                 background-color: transparent;
-                color: #00f2fe;
+                color: {self.color};
                 font-size: 20px;
                 font-family: 'Consolas';
                 font-weight: bold;
                 border-radius: 8px;
                 padding: 10px 30px;
-                border: 2px solid #00f2fe;
-            }
-            QPushButton:hover {
-                background-color: rgba(0, 242, 254, 0.2);
-            }
+                border: 2px solid {self.color};
+            }}
+            QPushButton:hover {{
+                background-color: {self.color};
+                color: #05050A;
+            }}
         """)
         
         panel_layout = QVBoxLayout(self.panel)
@@ -263,7 +269,7 @@ class AlertOverlay(QWidget):
             self.update_timer_label()
             if self.time_left == 0:
                 self.msg_lbl.setText("BREAK COMPLETE. RESUME OPERATIONS.")
-                self.msg_lbl.setStyleSheet("color: #00f2fe; font-weight: bold;")
+                self.msg_lbl.setStyleSheet(f"color: {self.color}; font-weight: bold;")
                 self.timer_lbl.setStyleSheet("color: white;")
                 if APP_SETTINGS['play_sound']:
                     self.play_beep() # play immediately
@@ -367,7 +373,7 @@ class HealthGuardianDashboard(QMainWindow):
             card_layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
             
             t_lbl = QLabel(f"[{TIMERS_CONF[timer_id]['title'].upper()}]")
-            t_lbl.setStyleSheet("font-size: 16px; font-weight: bold;")
+            t_lbl.setStyleSheet(f"font-size: 16px; font-weight: bold; color: {TIMERS_CONF[timer_id]['color']};")
             t_lbl.setAlignment(Qt.AlignmentFlag.AlignCenter)
             
             circle = CircularProgress(timer_id, card)
