@@ -394,7 +394,7 @@ class HealthGuardianDashboard(QMainWindow):
         
         close_btn = QPushButton("X", central_widget)
         close_btn.setObjectName("closeBtn")
-        close_btn.setGeometry(840, 30, 35, 35)
+        close_btn.setGeometry(825, 25, 35, 35)
         close_btn.setCursor(Qt.CursorShape.PointingHandCursor)
         close_btn.clicked.connect(self.close)
         
