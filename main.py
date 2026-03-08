@@ -115,7 +115,7 @@ class CircularProgress(QWidget):
         
         # Status Text placed distinctly below the circle
         painter.setFont(QFont("Consolas", 11, QFont.Weight.Bold))
-        status_rect = QRectF(0, self.width()-5, self.width(), 30)
+        status_rect = QRectF(0, 185, 180, 25)
         painter.drawText(status_rect, Qt.AlignmentFlag.AlignCenter, "ACTIVE" if self.is_running else "PAUSED")
         
         painter.end()
@@ -178,7 +178,7 @@ class AlertOverlay(QWidget):
                 font-size: 20px;
                 border: none;
                 background: transparent;
-                margin-top: 10px;
+                margin-top: 5px;
             }}
             QPushButton {{
                 background-color: transparent;
@@ -222,6 +222,7 @@ class AlertOverlay(QWidget):
         panel_layout.addSpacing(20)
         panel_layout.addWidget(self.title_lbl)
         panel_layout.addWidget(self.timer_lbl)
+        panel_layout.addSpacing(15)
         panel_layout.addWidget(self.msg_lbl)
         panel_layout.addWidget(self.btn, alignment=Qt.AlignmentFlag.AlignBottom | Qt.AlignmentFlag.AlignHCenter)
         panel_layout.addSpacing(20)
@@ -330,7 +331,7 @@ class HealthGuardianDashboard(QMainWindow):
     def __init__(self):
         super().__init__()
         self.setWindowTitle("Health Guardian - System UI")
-        self.setFixedSize(850, 500)
+        self.setFixedSize(900, 600)
         
         self.setStyleSheet("""
             QMainWindow { background-color: #05050A; }
@@ -352,7 +353,7 @@ class HealthGuardianDashboard(QMainWindow):
         central_widget = QWidget()
         self.setCentralWidget(central_widget)
         main_layout = QVBoxLayout(central_widget)
-        main_layout.setContentsMargins(40, 40, 40, 40)
+        main_layout.setContentsMargins(30, 30, 30, 30)
         
         header = QLabel("SYSTEM UI: HEALTH GUARDIAN")
         header.setStyleSheet("font-size: 30px; font-weight: bold; letter-spacing: 2px;")
